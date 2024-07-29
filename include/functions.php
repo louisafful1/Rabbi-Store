@@ -55,7 +55,7 @@ while($row = mysqli_fetch_assoc($search_items)){
                   </h3>
                   <div class="h6"><?php echo $currency. ' '. $row['item_price'];?></div>
                   <div class="d-flex gap-2">
-                    <button type="button" class="btn btn-dark w-100 rounded-pill px-3">Add to cart</button>
+                    <a href="index.php?add_to_cart=<?php echo $item_id; ?>" class="btn btn-dark w-100 rounded-pill px-3">Add to cart</a>
                     <button type="button" class="btn btn-icon btn-secondary rounded-circle animate-pulse" aria-label="Add to wishlist">
                       <i class="ci-heart fs-base animate-target"></i>
                     </button>
@@ -65,5 +65,57 @@ while($row = mysqli_fetch_assoc($search_items)){
 <?php
 }
 }
+}
+
+// Getting IP adress function
+
+function getIPAddress() {  
+  //whether ip is from the share internet  
+   if(!empty($_SERVER['HTTP_CLIENT_IP'])) {  
+              $ip = $_SERVER['HTTP_CLIENT_IP'];  
+      }  
+  //whether ip is from the proxy  
+  elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {  
+              $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];  
+   }  
+//whether ip is from the remote address  
+  else{  
+           $ip = $_SERVER['REMOTE_ADDR'];  
+   }  
+   return $ip;  
+}  
+
+
+// Cart function 
+function cart() {
+  if(isset($_GET['add_to_cart'])){
+    global $connection;
+    $ip = getIPAddress(); 
+    $get_item_id =  $_GET['add_to_cart'];
+    $quantity = 1;
+
+    $select_cart = mysqli_query($connection, "SELECT * FROM `cart` WHERE ip_address = '$ip' and item_id = '$get_item_id'");
+
+    $num_of_rows = mysqli_num_rows($select_cart);
+    if ($num_of_rows > 0){
+      echo "<script>alert('This item already exists in the cart')</script>";
+      echo "<script>window.location.href='index.php#popular_items';</script>";
+
+      exit();
+      
+    }else {
+      $insert_into_cart = mysqli_query($connection, "INSERT INTO cart values ('$get_item_id', '$ip', '$quantity')");
+      if($insert_into_cart) {
+        echo "<script>alert('Item has been successfully added to the cart');</script>";
+    } else {
+        echo "<script>alert('Failed to add item to the cart: " . mysqli_error($connection) . "');</script>";
+    }
+    
+    // Redirect to the index page
+    echo "<script>window.location.href='index.php#popular_items';</script>";
+    exit();
+    }
+
+  }
 }
 ?>

@@ -1,6 +1,7 @@
 <?php
 include "include/database.php";
 include "include/constant.php";
+include "include/functions.php";
 ?>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light" data-pwa="true">
@@ -16,7 +17,7 @@ include "include/constant.php";
   <body>
 
     <!-- Shopping cart offcanvas (Empty state) -->
-    <div class="offcanvas offcanvas-end pb-sm-2 px-sm-2" id="shoppingCart" tabindex="-1" aria-labelledby="shoppingCartLabel" style="width: 500px">
+    <!-- <div class="offcanvas offcanvas-end pb-sm-2 px-sm-2" id="shoppingCart" tabindex="-1" aria-labelledby="shoppingCartLabel" style="width: 500px">
       <div class="offcanvas-header py-3 pt-lg-4">
         <h4 class="offcanvas-title" id="shoppingCartLabel">Shopping cart</h4>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -27,7 +28,116 @@ include "include/constant.php";
         <p class="fs-sm mb-4">Explore our wide range of products and add items to your cart to proceed with your purchase.</p>
         <a class="btn btn-dark rounded-pill" href="shop.php">Continue shopping</a>
       </div>
+    </div> -->
+
+
+        <!-- Shopping cart offcanvas -->
+        <div class="offcanvas offcanvas-end pb-sm-2 px-sm-2" id="shoppingCart" tabindex="-1" aria-labelledby="shoppingCartLabel" style="width: 500px">
+
+<!-- Header -->
+<div class="offcanvas-header flex-column align-items-start py-3 pt-lg-4">
+  <div class="d-flex align-items-center justify-content-between w-100 mb-3 mb-lg-4">
+    <h4 class="offcanvas-title" id="shoppingCartLabel">Shopping cart</h4>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <p class="fs-sm">Buy <span class="text-dark-emphasis fw-semibold">$183</span> more to get <span class="text-dark-emphasis fw-semibold">Free Shipping</span></p>
+  <div class="progress w-100" role="progressbar" aria-label="Free shipping progress" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="height: 4px">
+    <div class="progress-bar bg-warning rounded-pill" style="width: 75%"></div>
+  </div>
+</div>
+
+<!-- Items -->
+<div class="offcanvas-body d-flex flex-column gap-4 pt-2">
+
+  <!-- Item -->
+  <div class="d-flex align-items-center">
+    <a class="flex-shrink-0" href="shop-product-general-electronics.html">
+      <img src="assets/img/shop/electronics/thumbs/08.png" width="110" alt="iPhone 14">
+    </a>
+    <div class="w-100 min-w-0 ps-2 ps-sm-3">
+      <h5 class="d-flex animate-underline mb-2">
+        <a class="d-block fs-sm fw-medium text-truncate animate-target" href="shop-product-general-electronics.html">Apple iPhone 14 128GB White</a>
+      </h5>
+      <div class="h6 pb-1 mb-2">$899.00</div>
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="count-input rounded-2">
+          <button type="button" class="btn btn-icon btn-sm" data-decrement="" aria-label="Decrement quantity">
+            <i class="ci-minus"></i>
+          </button>
+          <input type="number" class="form-control form-control-sm" value="1" readonly="">
+          <button type="button" class="btn btn-icon btn-sm" data-increment="" aria-label="Increment quantity">
+            <i class="ci-plus"></i>
+          </button>
+        </div>
+        <button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Remove from cart"></button>
+      </div>
     </div>
+  </div>
+
+  <!-- Item -->
+  <div class="d-flex align-items-center">
+    <a class="position-relative flex-shrink-0" href="shop-product-general-electronics.html">
+      <span class="badge text-bg-danger position-absolute top-0 start-0">-10%</span>
+      <img src="assets/img/shop/electronics/thumbs/09.png" width="110" alt="iPad Pro">
+    </a>
+    <div class="w-100 min-w-0 ps-2 ps-sm-3">
+      <h5 class="d-flex animate-underline mb-2">
+        <a class="d-block fs-sm fw-medium text-truncate animate-target" href="shop-product-general-electronics.html">Tablet Apple iPad Pro M2</a>
+      </h5>
+      <div class="h6 pb-1 mb-2">$989.00 <del class="text-body-tertiary fs-xs fw-normal">$1,099.00</del></div>
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="count-input rounded-2">
+          <button type="button" class="btn btn-icon btn-sm" data-decrement="" aria-label="Decrement quantity">
+            <i class="ci-minus"></i>
+          </button>
+          <input type="number" class="form-control form-control-sm" value="1" readonly="">
+          <button type="button" class="btn btn-icon btn-sm" data-increment="" aria-label="Increment quantity">
+            <i class="ci-plus"></i>
+          </button>
+        </div>
+        <button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Remove from cart"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Item -->
+  <div class="d-flex align-items-center">
+    <a class="flex-shrink-0" href="shop-product-general-electronics.html">
+      <img src="assets/img/shop/electronics/thumbs/01.png" width="110" alt="Smart Watch">
+    </a>
+    <div class="w-100 min-w-0 ps-2 ps-sm-3">
+      <h5 class="d-flex animate-underline mb-2">
+        <a class="d-block fs-sm fw-medium text-truncate animate-target" href="shop-product-general-electronics.html">Smart Watch Series 7, White</a>
+      </h5>
+      <div class="h6 pb-1 mb-2">$429.00</div>
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="count-input rounded-2">
+          <button type="button" class="btn btn-icon btn-sm" data-decrement="" aria-label="Decrement quantity">
+            <i class="ci-minus"></i>
+          </button>
+          <input type="number" class="form-control form-control-sm" value="1" readonly="">
+          <button type="button" class="btn btn-icon btn-sm" data-increment="" aria-label="Increment quantity">
+            <i class="ci-plus"></i>
+          </button>
+        </div>
+        <button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Remove from cart"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="offcanvas-header flex-column align-items-start">
+  <div class="d-flex align-items-center justify-content-between w-100 mb-3 mb-md-4">
+    <span class="text-light-emphasis">Subtotal:</span>
+    <span class="h6 mb-0">$2,317.00</span>
+  </div>
+  <div class="d-flex w-100 gap-3">
+    <a class="btn btn-lg btn-secondary w-100" href="index.php">Continue Shopping</a>
+    <a class="btn btn-lg btn-primary w-100" href="checkout.php">Checkout</a>
+  </div>
+</div>
+</div>
 
 
     <!-- Topbar -->
@@ -452,7 +562,7 @@ include "include/constant.php";
 
 
       <!-- Popular products carousel -->
-      <section class="container pb-5 mt-md-n2 mb-2 mb-sm-3 mb-md-4 mb-xl-5">
+      <section class="container pb-5 mt-md-n2 mb-2 mb-sm-3 mb-md-4 mb-xl-5" id="popular_items">
 
         <!-- Heading -->
         <div class="d-flex align-items-center justify-content-between border-bottom pb-3 pb-md-4">
@@ -496,6 +606,10 @@ include "include/constant.php";
           }">
             <div class="swiper-wrapper">
 <?php
+// Calling the add to cart function
+cart();
+
+
 $select_items =mysqli_query($connection, "SELECT * FROM items ORDER BY rand() limit 6");
 
 
@@ -540,7 +654,7 @@ while($row = mysqli_fetch_assoc($select_items)){
                   </h3>
                   <div class="h6"><?php echo $currency. ' '. $row['item_price'];?></div>
                   <div class="d-flex gap-2">
-                    <button type="button" class="btn btn-dark w-100 rounded-pill px-3">Add to cart</button>
+                  <a href="index.php?add_to_cart=<?php echo $item_id; ?>" class="btn btn-dark w-100 rounded-pill px-3">Add to cart</a>
                     <button type="button" class="btn btn-icon btn-secondary rounded-circle animate-pulse" aria-label="Add to wishlist">
                       <i class="ci-heart fs-base animate-target"></i>
                     </button>

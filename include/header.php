@@ -1,4 +1,31 @@
    <!-- Navigation bar (Page header) -->
+    <style>
+     /* Ensure the badge is close to the icon */
+.badge {
+  font-size: 0.75rem; /* Adjust size of the number */
+  padding: 0.2rem 0.4rem; /* Adjust padding for better alignment */
+  background-color: red; /* Remove background color */
+  color: #333; /* Change text color if needed */
+}
+
+.position-absolute {
+  position: absolute;
+}
+
+.top-0 {
+  top: 0;
+}
+
+.start-100 {
+  left: 100%;
+}
+
+.translate-middle {
+  transform: translate(-50%, -50%);
+}
+
+
+    </style>
    <header class="navbar-sticky sticky-top container z-fixed px-2" data-sticky-element="">
       <div class="navbar navbar-expand-lg flex-nowrap bg-body rounded-pill shadow ps-0 mx-1">
         <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark rounded-pill z-0 d-none d-block-dark"></div>
@@ -80,9 +107,16 @@
           </div>
 
           <!-- Cart button -->
-          <button type="button" class="btn btn-icon fs-lg btn-outline-secondary border-0 rounded-circle animate-scale me-2" data-bs-toggle="offcanvas" data-bs-target="#shoppingCart" aria-controls="shoppingCart" aria-label="Shopping cart">
-            <i class="ci-shopping-cart animate-target"></i>
-          </button>
+          <!-- Cart button -->
+<!-- Cart button -->
+<button type="button" class="btn btn-icon fs-lg btn-outline-secondary border-0 rounded-circle animate-scale me-2 position-relative" data-bs-toggle="offcanvas" data-bs-target="#shoppingCart" aria-controls="shoppingCart" aria-label="Shopping cart">
+  <i class="ci-shopping-cart animate-target"></i>
+  <span class="position-absolute top-0 start-100 translate-middle badge text-white rounded-pill" style="font-size: 0.75rem; padding: 0.2rem 0.4rem;">
+    7
+  </span>
+</button>
+
+
 
           <!-- Search -->
           <div class="dropdown">

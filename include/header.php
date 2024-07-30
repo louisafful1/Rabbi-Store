@@ -112,7 +112,7 @@
 <button type="button" class="btn btn-icon fs-lg btn-outline-secondary border-0 rounded-circle animate-scale me-2 position-relative" data-bs-toggle="offcanvas" data-bs-target="#shoppingCart" aria-controls="shoppingCart" aria-label="Shopping cart">
   <i class="ci-shopping-cart animate-target"></i>
   <span class="position-absolute top-0 start-100 translate-middle badge text-white rounded-pill" style="font-size: 0.75rem; padding: 0.2rem 0.4rem;">
-    7
+    <?php cart_item();?>
   </span>
 </button>
 
@@ -135,3 +135,7 @@
         </div>
       </div>
     </header>
+<?php
+    // Calling the add to cart function
+cart();
+?>

@@ -126,7 +126,7 @@ function updateQuantity(itemId, change) {
 
 
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', 'include/update_cart.php', true); 
+    xhr.open('POST', 'include/update_cart.php', true); //because this file lies in index.php
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {

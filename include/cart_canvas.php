@@ -37,7 +37,9 @@
    $total_price = 0;
    $cart_query = mysqli_query($connection, "SELECT * FROM `cart` WHERE ip_address = '$ip'");
    while($row = mysqli_fetch_array($cart_query)){
+
      $item_id = $row['item_id'];
+     $quantity = $row['quantity'];
      $select_items = mysqli_query($connection, "SELECT * FROM `items` WHERE item_id = '$item_id'");
      while($row_item_price = mysqli_fetch_array($select_items)){
        $item_price = array($row_item_price['item_price']);
@@ -73,11 +75,11 @@
       <div class="h6 pb-1 mb-2"><?php echo $currency.' '.  $price_table; ?></div>
       <div class="d-flex align-items-center justify-content-between">
         <div class="count-input rounded-2">
-          <button type="button" class="btn btn-icon btn-sm" data-decrement="" aria-label="Decrement quantity" onclick="updateQuantity(<?php echo $item_id; ?>, -1)">
+          <button type="button" class="btn btn-icon btn-sm"  aria-label="Decrement quantity" onclick="updateQuantity(<?php echo $item_id; ?>, -1)">
             <i class="ci-minus"></i>
           </button>
-          <input type="number" class="form-control form-control-sm" id="qty-<?php echo $item_id; ?>" name="qty" value="1" min="1">
-          <button type="button" class="btn btn-icon btn-sm" data-increment="" aria-label="Increment quantity" onclick="updateQuantity(<?php echo $item_id; ?>, 1)">
+          <input type="number" class="form-control form-control-sm" id="qty_<?php echo $item_id; ?>" name="qty" value="<?php echo $quantity; ?>" min="1">
+          <button type="button" class="btn btn-icon btn-sm"  aria-label="Increment quantity" onclick="updateQuantity(<?php echo $item_id; ?>, 1)">
             <i class="ci-plus"></i>
           </button>
         </div>
@@ -101,7 +103,7 @@
 <div class="offcanvas-header flex-column align-items-start">
   <div class="d-flex align-items-center justify-content-between w-100 mb-3 mb-md-4">
     <span class="text-light-emphasis">Subtotal:</span>
-    <span class="h6 mb-0"><?php echo $currency.' '.$total_price;  ?></span>
+    <span class="h6 mb-0" id="cart-total"><?php echo $currency.' '.number_format($total_price, 2);  ?></span>
   </div>
   <div class="d-flex w-100 gap-3">
     <a class="btn btn-lg btn-secondary w-100" href="index.php">Continue Shopping</a>
@@ -112,7 +114,7 @@
 
 <script>
 function updateQuantity(itemId, change) {
-    let input = document.getElementById(`qty-${itemId}`);
+    let input = document.getElementById(`qty_${itemId}`);
     let currentQuantity = parseInt(input.value);
     let newQuantity = currentQuantity + change;
     
@@ -122,26 +124,35 @@ function updateQuantity(itemId, change) {
     
     input.value = newQuantity;
 
-    // Send the updated quantity to the server
-    fetch('include/update_cart.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: `item_id=${itemId}&quantity=${newQuantity}`
-    })
-    .then(response => response.text())
-    .then(data => {
-        if (data !== 'success') {
-            alert('Failed to update quantity');
-        } else {
-            location.reload(); // Reload the page to reflect changes in subtotal
+
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', 'include/update_cart.php', true); 
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            if (xhr.responseText === 'success') {
+              
+            } else {
+                // Handle error
+                alert('Error updating quantity: ' + xhr.responseText);
+            }
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error updating quantity');
-    });
+    };
+    xhr.send(`item_id=${itemId}&quantity=${newQuantity}`);
 }
+
+
+
+function updateCartTotal() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', 'get_cart_total.php', true); // Create this PHP file to calculate the total
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            document.getElementById('cart-total').innerText = xhr.responseText;
+        }
+    };
+    xhr.send();
+}
+
 
 </script>

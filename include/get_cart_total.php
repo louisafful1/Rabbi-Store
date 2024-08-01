@@ -1,6 +1,7 @@
 <?php
 include "database.php";
 include "functions.php";
+include "constant.php";
 
 $ip = getIPAddress();
 $total_price = 0;
@@ -16,5 +17,6 @@ while ($row = mysqli_fetch_array($cart_query)) {
     }
 }
 
-echo $currency . ' ' . number_format($total_price, 2); // Format the total price as needed
+echo json_encode(array('total_price' => $currency . ' ' . number_format($total_price, 2)));
+
 ?>

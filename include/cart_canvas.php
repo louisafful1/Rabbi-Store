@@ -1,5 +1,13 @@
-    <!-- Shopping cart offcanvas (Empty state) -->
-    <!-- <div class="offcanvas offcanvas-end pb-sm-2 px-sm-2" id="shoppingCart" tabindex="-1" aria-labelledby="shoppingCartLabel" style="width: 500px">
+   <?php
+   $selectCart = mysqli_query($connection, "SELECT * FROM cart");
+   
+   if(mysqli_num_rows($selectCart) == 0)   {
+   
+   ?>
+   
+   
+   <!-- Shopping cart offcanvas (Empty state) -->
+    <div class="offcanvas offcanvas-end pb-sm-2 px-sm-2" id="shoppingCart" tabindex="-1" aria-labelledby="shoppingCartLabel" style="width: 500px">
       <div class="offcanvas-header py-3 pt-lg-4">
         <h4 class="offcanvas-title" id="shoppingCartLabel">Shopping cart</h4>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -10,9 +18,14 @@
         <p class="fs-sm mb-4">Explore our wide range of products and add items to your cart to proceed with your purchase.</p>
         <a class="btn btn-dark rounded-pill" href="shop.php">Continue shopping</a>
       </div>
-    </div> -->
+    </div>
 
+<?php
+}
 
+ else{
+  
+  ?>
         <!-- Shopping cart offcanvas -->
 <div class="offcanvas offcanvas-end pb-sm-2 px-sm-2" id="shoppingCart" tabindex="-1" aria-labelledby="shoppingCartLabel" style="width: 500px">
 
@@ -83,7 +96,7 @@
             <i class="ci-plus"></i>
           </button>
         </div>
-        <button type="submit" class="btn-close fs-sm" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Remove from cart"></button>
+        <button type="submit" class="btn-close fs-sm" data-bs-toggle="tooltip" value="<?php echo $item_id;?>" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" name="remove_cart[]" aria-label="Remove from cart"></button>
         
       </div>
     </div>
@@ -103,7 +116,7 @@
 <div class="offcanvas-header flex-column align-items-start">
   <div class="d-flex align-items-center justify-content-between w-100 mb-3 mb-md-4">
     <span class="text-light-emphasis">Subtotal:</span>
-    <span class="h6 mb-0" id="cart-total"><?php echo $currency.' '.number_format($total_price, 2);  ?></span>
+    <span class="h6 mb-0" id="cart-total"></span>
   </div>
   <div class="d-flex w-100 gap-3">
     <a class="btn btn-lg btn-secondary w-100" href="index.php">Continue Shopping</a>
@@ -111,6 +124,7 @@
   </div>
 </div>
 </div>
+
 
 <script>
 function updateQuantity(itemId, change) {
@@ -131,7 +145,7 @@ function updateQuantity(itemId, change) {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             if (xhr.responseText === 'success') {
-              
+              fetchTotalPrice();
             } else {
                 // Handle error
                 alert('Error updating quantity: ' + xhr.responseText);
@@ -143,16 +157,22 @@ function updateQuantity(itemId, change) {
 
 
 
-function updateCartTotal() {
+function fetchTotalPrice() {
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', 'get_cart_total.php', true); // Create this PHP file to calculate the total
+    xhr.open('GET', 'include/get_cart_total.php', true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            document.getElementById('cart-total').innerText = xhr.responseText;
+            let response = JSON.parse(xhr.responseText);
+            console.log('Total price:', response.total_price);
+            document.getElementById('cart-total').textContent = response.total_price;
         }
     };
     xhr.send();
 }
 
-
+window.onload = fetchTotalPrice
 </script>
+
+<?php
+} 
+?> 

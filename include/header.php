@@ -138,4 +138,7 @@
 <?php
     // Calling the add to cart function
 cart();
+
+// deleting cart item
+delete_cart_item ();
 ?>

@@ -175,4 +175,26 @@ function update_cart_quantity() {
     }
 }
 }
+
+
+function delete_cart_item() {
+  global $connection; // 
+
+  if (isset($_POST['remove_cart'])) {
+      foreach ($_POST['remove_cart'] as $remove) {
+          $delete = mysqli_query($connection, "DELETE FROM cart WHERE item_id = '$remove'");
+
+          if ($delete) {
+              echo "<script>alert('Item removed from cart')</script>";
+              echo "<script>window.location.href='index.php';</script>";
+
+      exit();
+            
+          } else {
+              echo "<script>alert('Failed to remove item from cart')</script>";
+          }
+      }
+  }
+}
+
 ?>

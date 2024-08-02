@@ -20,3 +20,7 @@ while ($row = mysqli_fetch_array($cart_query)) {
 echo json_encode(array('total_price' => $currency . ' ' . number_format($total_price, 2)));
 
 ?>
+
+
+
+

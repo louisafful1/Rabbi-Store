@@ -120,7 +120,7 @@
   </div>
   <div class="d-flex w-100 gap-3">
     <a class="btn btn-lg btn-secondary w-100" href="index.php">Continue Shopping</a>
-    <a class="btn btn-lg btn-primary w-100" href="checkout.php">Checkout</a>
+    <a class="btn btn-lg btn-primary w-100" href="checkout.php?">Checkout</a>
   </div>
 </div>
 </div>

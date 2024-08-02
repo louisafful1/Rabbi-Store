@@ -1,3 +1,9 @@
+<?php
+include "include/database.php";
+include "include/constant.php";
+include "include/functions.php";
+?>
+
 <!DOCTYPE html><html lang="en" data-bs-theme="light" data-pwa="true">
 <!-- Mirrored from cartzilla.createx.studio/checkout-v1-cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 05:35:26 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
@@ -339,14 +345,14 @@
 
         <!-- Item -->
         <div class="d-flex align-items-center">
-          <a class="flex-shrink-0" href="shop-product-general-electronics.html">
+          <a class="flex-shrink-0" href="shop.php">
             <img src="assets/img/shop/electronics/thumbs/08.png" width="110" alt="iPhone 14">
           </a>
           <div class="w-100 min-w-0 ps-2 ps-sm-3">
             <h5 class="d-flex animate-underline mb-2">
-              <a class="d-block fs-sm fw-medium text-truncate animate-target" href="shop-product-general-electronics.html">Apple iPhone 14 128GB White</a>
+              <a class="d-block fs-sm fw-medium text-truncate animate-target" href="shop.php"><?php echo $price_title; ?></a>
             </h5>
-            <div class="h6 pb-1 mb-2">$899.00</div>
+            <div class="h6 pb-1 mb-2"><?php echo $currency.' '.  $price_table; ?></div>
             <div class="d-flex align-items-center justify-content-between">
               <div class="count-input rounded-2">
                 <button type="button" class="btn btn-icon btn-sm" data-decrement="" aria-label="Decrement quantity">
@@ -364,13 +370,13 @@
 
         <!-- Item -->
         <div class="d-flex align-items-center">
-          <a class="position-relative flex-shrink-0" href="shop-product-general-electronics.html">
+          <a class="position-relative flex-shrink-0" href="shop.php">
             <span class="badge text-bg-danger position-absolute top-0 start-0">-10%</span>
             <img src="assets/img/shop/electronics/thumbs/09.png" width="110" alt="iPad Pro">
           </a>
           <div class="w-100 min-w-0 ps-2 ps-sm-3">
             <h5 class="d-flex animate-underline mb-2">
-              <a class="d-block fs-sm fw-medium text-truncate animate-target" href="shop-product-general-electronics.html">Tablet Apple iPad Pro M2</a>
+              <a class="d-block fs-sm fw-medium text-truncate animate-target" href="shop.php">Tablet Apple iPad Pro M2</a>
             </h5>
             <div class="h6 pb-1 mb-2">$989.00 <del class="text-body-tertiary fs-xs fw-normal">$1,099.00</del></div>
             <div class="d-flex align-items-center justify-content-between">
@@ -390,12 +396,12 @@
 
         <!-- Item -->
         <div class="d-flex align-items-center">
-          <a class="flex-shrink-0" href="shop-product-general-electronics.html">
+          <a class="flex-shrink-0" href="shop.php">
             <img src="assets/img/shop/electronics/thumbs/01.png" width="110" alt="Smart Watch">
           </a>
           <div class="w-100 min-w-0 ps-2 ps-sm-3">
             <h5 class="d-flex animate-underline mb-2">
-              <a class="d-block fs-sm fw-medium text-truncate animate-target" href="shop-product-general-electronics.html">Smart Watch Series 7, White</a>
+              <a class="d-block fs-sm fw-medium text-truncate animate-target" href="shop.php">Smart Watch Series 7, White</a>
             </h5>
             <div class="h6 pb-1 mb-2">$429.00</div>
             <div class="d-flex align-items-center justify-content-between">
@@ -429,7 +435,7 @@
 
 
 <!-- Header -->
-<?php include "include/header.php";?>
+<?php// include "include/header.php";?>
 <!-- End of Header -->
 
 
@@ -479,22 +485,42 @@
                   </tr>
                 </thead>
                 <tbody class="align-middle">
+                <?php 
 
+$ip = getIPAddress(); 
+$total_price = 0;
+$cart_query = mysqli_query($connection, "SELECT * FROM `cart` WHERE ip_address = '$ip'");
+while($row = mysqli_fetch_array($cart_query)){
+
+  $item_id = $row['item_id'];
+  $quantity = $row['quantity'];
+  $select_items = mysqli_query($connection, "SELECT * FROM `items` WHERE item_id = '$item_id'");
+  while($row_item_price = mysqli_fetch_array($select_items)){
+    $item_price = $row_item_price['item_price']; // This is already a numeric value
+    $price_table = $row_item_price['item_price'];
+    $price_title = $row_item_price['item_title'];
+    $price_image = $row_item_price['item_image1'];
+    
+    // Calculate the total price for this item
+    $item_total = $item_price * $quantity; 
+    
+    // Add the item's total price to the cart's total price
+    $total_price += $item_total; 
+?>
+<form action="" method="post">
                   <!-- Item -->
                   <tr>
                     <td class="py-3 ps-0">
                       <div class="d-flex align-items-center">
-                        <a class="flex-shrink-0" href="shop-product-general-electronics.html">
-                          <img src="assets/img/shop/electronics/thumbs/08.png" width="110" alt="iPhone 14">
+                        <a class="flex-shrink-0" href="shop.php">
+                          <img src="item_images/<?php echo $price_image; ?>" width="110" alt="iPhone 14">
                         </a>
                         <div class="w-100 min-w-0 ps-2 ps-xl-3">
                           <h5 class="d-flex animate-underline mb-2">
-                            <a class="d-block fs-sm fw-medium text-truncate animate-target" href="shop-product-general-electronics.html">Apple iPhone 14 128GB</a>
+                            <a class="d-block fs-sm fw-medium text-truncate animate-target" href="shop.php"><?php echo $price_title; ?></a>
                           </h5>
                           <ul class="list-unstyled gap-1 fs-xs mb-0">
-                            <li><span class="text-body-secondary">Color:</span> <span class="text-dark-emphasis fw-medium">White</span></li>
-                            <li><span class="text-body-secondary">Model:</span> <span class="text-dark-emphasis fw-medium">128GB</span></li>
-                            <li class="d-xl-none"><span class="text-body-secondary">Price:</span> <span class="text-dark-emphasis fw-medium">$899.00</span></li>
+                            <!-- <li class="d-xl-none"><span class="text-body-secondary">Price:</span> <span class="text-dark-emphasis fw-medium"><?php //echo $currency.' '.  $price_table; ?></span></li> -->
                           </ul>
                           <div class="count-input rounded-2 d-md-none mt-3">
                             <button type="button" class="btn btn-sm btn-icon" data-decrement="" aria-label="Decrement quantity">
@@ -508,121 +534,36 @@
                         </div>
                       </div>
                     </td>
-                    <td class="h6 py-3 d-none d-xl-table-cell">$899.00</td>
+                    <td class="h6 py-3 d-none d-xl-table-cell"><?php echo $currency.' '.  $price_table; ?></td>
                     <td class="py-3 d-none d-md-table-cell">
                       <div class="count-input">
-                        <button type="button" class="btn btn-icon" data-decrement="" aria-label="Decrement quantity">
-                          <i class="ci-minus"></i>
-                        </button>
-                        <input type="number" class="form-control" value="1" readonly="">
-                        <button type="button" class="btn btn-icon" data-increment="" aria-label="Increment quantity">
-                          <i class="ci-plus"></i>
-                        </button>
+                      <button type="button" class="btn btn-icon btn-sm" aria-label="Decrement quantity" onclick="updateQuantity(<?php echo $item_id; ?>, -1)">
+                                            <i class="ci-minus"></i>
+                                        </button>
+                                        <input type="number" class="form-control form-control-sm mx-2" id="qty_<?php echo $item_id; ?>" name="qty" value="<?php echo $quantity; ?>" min="1">
+                                        <button type="button" class="btn btn-icon btn-sm" aria-label="Increment quantity" onclick="updateQuantity(<?php echo $item_id; ?>, 1)">
+                                            <i class="ci-plus"></i>
+                                        </button>
                       </div>
                     </td>
-                    <td class="h6 py-3 d-none d-md-table-cell">$899.00</td>
+                    <td class="h6 py-3 d-none d-md-table-cell"><?php echo $item_total; ?></td>
                     <td class="text-end py-3 px-0">
-                      <button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Remove from cart"></button>
+                    <button type="submit" class="btn-close ms-3" data-bs-toggle="tooltip" value="<?php echo $item_id;?>" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" name="remove_cart[]" aria-label="Remove from cart"></button>           
                     </td>
                   </tr>
-
-                  <!-- Item -->
-                  <tr>
-                    <td class="py-3 ps-0">
-                      <div class="d-flex align-items-center">
-                        <a class="position-relative flex-shrink-0" href="shop-product-general-electronics.html">
-                          <span class="badge text-bg-danger position-absolute top-0 start-0">-10%</span>
-                          <img src="assets/img/shop/electronics/thumbs/09.png" width="110" alt="iPad Pro">
-                        </a>
-                        <div class="w-100 min-w-0 ps-2 ps-xl-3">
-                          <h5 class="d-flex animate-underline mb-2">
-                            <a class="d-block fs-sm fw-medium text-truncate animate-target" href="shop-product-general-electronics.html">Tablet Apple iPad Pro M2</a>
-                          </h5>
-                          <ul class="list-unstyled gap-1 fs-xs mb-0">
-                            <li><span class="text-body-secondary">Color:</span> <span class="text-dark-emphasis fw-medium">Black</span></li>
-                            <li><span class="text-body-secondary">Model:</span> <span class="text-dark-emphasis fw-medium">256GB</span></li>
-                            <li class="d-xl-none"><span class="text-body-secondary">Price:</span> <span class="text-dark-emphasis fw-medium">$989.00 <del class="text-body-tertiary fw-normal">$1,099.00</del></span></li>
-                          </ul>
-                          <div class="count-input rounded-2 d-md-none mt-3">
-                            <button type="button" class="btn btn-sm btn-icon" data-decrement="" aria-label="Decrement quantity">
-                              <i class="ci-minus"></i>
-                            </button>
-                            <input type="number" class="form-control form-control-sm" value="1" readonly="">
-                            <button type="button" class="btn btn-sm btn-icon" data-increment="" aria-label="Increment quantity">
-                              <i class="ci-plus"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="h6 py-3 d-none d-xl-table-cell">$989.00 <del class="text-body-tertiary fs-xs fw-normal">$1,099.00</del></td>
-                    <td class="py-3 d-none d-md-table-cell">
-                      <div class="count-input">
-                        <button type="button" class="btn btn-icon" data-decrement="" aria-label="Decrement quantity">
-                          <i class="ci-minus"></i>
-                        </button>
-                        <input type="number" class="form-control" value="1" readonly="">
-                        <button type="button" class="btn btn-icon" data-increment="" aria-label="Increment quantity">
-                          <i class="ci-plus"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td class="h6 py-3 d-none d-md-table-cell">$989.00</td>
-                    <td class="text-end py-3 px-0">
-                      <button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Remove from cart"></button>
-                    </td>
-                  </tr>
-
-                  <!-- Item -->
-                  <tr>
-                    <td class="py-3 ps-0">
-                      <div class="d-flex align-items-center">
-                        <a class="flex-shrink-0" href="shop-product-general-electronics.html">
-                          <img src="assets/img/shop/electronics/thumbs/01.png" width="110" alt="Smart Watch">
-                        </a>
-                        <div class="w-100 min-w-0 ps-2 ps-xl-3">
-                          <h5 class="d-flex animate-underline mb-2">
-                            <a class="d-block fs-sm fw-medium text-truncate animate-target" href="shop-product-general-electronics.html">Smart Watch Series 7</a>
-                          </h5>
-                          <ul class="list-unstyled gap-1 fs-xs mb-0">
-                            <li><span class="text-body-secondary">Color:</span> <span class="text-dark-emphasis fw-medium">White</span></li>
-                            <li><span class="text-body-secondary">Model:</span> <span class="text-dark-emphasis fw-medium">44 mm</span></li>
-                            <li class="d-xl-none"><span class="text-body-secondary">Price:</span> <span class="text-dark-emphasis fw-medium">$429.00</span></li>
-                          </ul>
-                          <div class="count-input rounded-2 d-md-none mt-3">
-                            <button type="button" class="btn btn-sm btn-icon" data-decrement="" aria-label="Decrement quantity">
-                              <i class="ci-minus"></i>
-                            </button>
-                            <input type="number" class="form-control form-control-sm" value="1" readonly="">
-                            <button type="button" class="btn btn-sm btn-icon" data-increment="" aria-label="Increment quantity">
-                              <i class="ci-plus"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="h6 py-3 d-none d-xl-table-cell">$429.00</td>
-                    <td class="py-3 d-none d-md-table-cell">
-                      <div class="count-input">
-                        <button type="button" class="btn btn-icon" data-decrement="" aria-label="Decrement quantity">
-                          <i class="ci-minus"></i>
-                        </button>
-                        <input type="number" class="form-control" value="1" readonly="">
-                        <button type="button" class="btn btn-icon" data-increment="" aria-label="Increment quantity">
-                          <i class="ci-plus"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td class="h6 py-3 d-none d-md-table-cell">$429.00</td>
-                    <td class="text-end py-3 px-0">
-                      <button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Remove from cart"></button>
-                    </td>
-                  </tr>
+                  </form>
+                  <?php 
+  }
+}
+  ?>
                 </tbody>
               </table>
+ 
+
+        
 
               <div class="nav position-relative z-2 mb-4 mb-lg-0">
-                <a class="nav-link animate-underline px-0" href="shop-catalog-electronics.html">
+                <a class="nav-link animate-underline px-0" href="shop.php">
                   <i class="ci-chevron-left fs-lg me-1"></i>
                   <span class="animate-target">Continue shopping</span>
                 </a>
@@ -640,25 +581,25 @@
                   <ul class="list-unstyled fs-sm gap-3 mb-0">
                     <li class="d-flex justify-content-between">
                       Subtotal (3 items):
-                      <span class="text-dark-emphasis fw-medium">$2,427.00</span>
+                      <span class="text-dark-emphasis fw-medium">0.00</span>
                     </li>
                     <li class="d-flex justify-content-between">
                       Saving:
-                      <span class="text-danger fw-medium">-$110.00</span>
+                      <span class="text-danger fw-medium">-0.00</span>
                     </li>
                     <li class="d-flex justify-content-between">
                       Tax collected:
-                      <span class="text-dark-emphasis fw-medium">$73.40</span>
+                      <span class="text-dark-emphasis fw-medium">0.00</span>
                     </li>
                     <li class="d-flex justify-content-between">
                       Shipping:
-                      <span class="text-dark-emphasis fw-medium">Calculated at checkout</span>
+                      <span class="text-dark-emphasis fw-medium">Free</span>
                     </li>
                   </ul>
                   <div class="border-top pt-4 mt-4">
                     <div class="d-flex justify-content-between mb-3">
                       <span class="fs-sm">Estimated total:</span>
-                      <span class="h5 mb-0">$2,390.40</span>
+                      <span class="h5 mb-0" id="cart-total"></span>
                     </div>
                     <a class="btn btn-lg btn-primary w-100" href="checkout-v1-delivery-1.html">
                       Proceed to checkout
@@ -767,7 +708,7 @@
                         </li>
                       </ul>
                     </div>
-                    <a class="d-block rounded-top overflow-hidden p-3 p-sm-4" href="shop-product-general-electronics.html">
+                    <a class="d-block rounded-top overflow-hidden p-3 p-sm-4" href="shop.php">
                       <span class="badge bg-danger position-absolute top-0 start-0 mt-2 ms-2 mt-lg-3 ms-lg-3">-21%</span>
                       <div class="ratio" style="--cz-aspect-ratio: calc(240 / 258 * 100%)">
                         <img src="assets/img/shop/electronics/01.png" alt="VR Glasses">
@@ -786,7 +727,7 @@
                       <span class="text-body-tertiary fs-xs">(123)</span>
                     </div>
                     <h3 class="pb-1 mb-2">
-                      <a class="d-block fs-sm fw-medium text-truncate" href="shop-product-general-electronics.html">
+                      <a class="d-block fs-sm fw-medium text-truncate" href="shop.php">
                         <span class="animate-target">VRB01 Virtual Reality Glasses</span>
                       </a>
                     </h3>
@@ -833,7 +774,7 @@
                         </li>
                       </ul>
                     </div>
-                    <a class="d-block rounded-top overflow-hidden p-3 p-sm-4" href="shop-product-general-electronics.html">
+                    <a class="d-block rounded-top overflow-hidden p-3 p-sm-4" href="shop.php">
                       <div class="ratio" style="--cz-aspect-ratio: calc(240 / 258 * 100%)">
                         <img src="assets/img/shop/electronics/14.png" alt="iPhone 14">
                       </div>
@@ -851,7 +792,7 @@
                       <span class="text-body-tertiary fs-xs">(142)</span>
                     </div>
                     <h3 class="pb-1 mb-2">
-                      <a class="d-block fs-sm fw-medium text-truncate" href="shop-product-general-electronics.html">
+                      <a class="d-block fs-sm fw-medium text-truncate" href="shop.php">
                         <span class="animate-target">Apple iPhone 14 128GB Blue</span>
                       </a>
                     </h3>
@@ -898,7 +839,7 @@
                         </li>
                       </ul>
                     </div>
-                    <a class="d-block rounded-top overflow-hidden p-3 p-sm-4" href="shop-product-general-electronics.html">
+                    <a class="d-block rounded-top overflow-hidden p-3 p-sm-4" href="shop.php">
                       <div class="ratio" style="--cz-aspect-ratio: calc(240 / 258 * 100%)">
                         <img src="assets/img/shop/electronics/13.png" alt="Dualsense Edge">
                       </div>
@@ -916,7 +857,7 @@
                       <span class="text-body-tertiary fs-xs">(187)</span>
                     </div>
                     <h3 class="pb-1 mb-2">
-                      <a class="d-block fs-sm fw-medium text-truncate" href="shop-product-general-electronics.html">
+                      <a class="d-block fs-sm fw-medium text-truncate" href="shop.php">
                         <span class="animate-target">Sony Dualsense Edge Controller</span>
                       </a>
                     </h3>
@@ -963,7 +904,7 @@
                         </li>
                       </ul>
                     </div>
-                    <a class="d-block rounded-top overflow-hidden p-3 p-sm-4" href="shop-product-general-electronics.html">
+                    <a class="d-block rounded-top overflow-hidden p-3 p-sm-4" href="shop.php">
                       <span class="badge bg-info position-absolute top-0 start-0 mt-2 ms-2 mt-lg-3 ms-lg-3">New</span>
                       <div class="ratio" style="--cz-aspect-ratio: calc(240 / 258 * 100%)">
                         <img src="assets/img/shop/electronics/04.png" alt="MacBook">
@@ -982,7 +923,7 @@
                       <span class="text-body-tertiary fs-xs">(51)</span>
                     </div>
                     <h3 class="pb-1 mb-2">
-                      <a class="d-block fs-sm fw-medium text-truncate" href="shop-product-general-electronics.html">
+                      <a class="d-block fs-sm fw-medium text-truncate" href="shop.php">
                         <span class="animate-target">Laptop Apple MacBook Pro 13 M2</span>
                       </a>
                     </h3>
@@ -1029,7 +970,7 @@
                         </li>
                       </ul>
                     </div>
-                    <a class="d-block rounded-top overflow-hidden p-3 p-sm-4" href="shop-product-general-electronics.html">
+                    <a class="d-block rounded-top overflow-hidden p-3 p-sm-4" href="shop.php">
                       <div class="ratio" style="--cz-aspect-ratio: calc(240 / 258 * 100%)">
                         <img src="assets/img/shop/electronics/08.png" alt="Bluetooth Headphones">
                       </div>
@@ -1047,7 +988,7 @@
                       <span class="text-body-tertiary fs-xs">(136)</span>
                     </div>
                     <h3 class="pb-1 mb-2">
-                      <a class="d-block fs-sm fw-medium text-truncate" href="shop-product-general-electronics.html">
+                      <a class="d-block fs-sm fw-medium text-truncate" href="shop.php">
                         <span class="animate-target">Wireless Bluetooth Headphones Sony</span>
                       </a>
                     </h3>
@@ -1409,7 +1350,49 @@
     <!-- Bootstrap + Theme scripts -->
     <script src="assets/js/theme.min.js"></script>
   
+    <script>
+function updateQuantity(itemId, change) {
+    let input = document.getElementById(`qty_${itemId}`);
+    let currentQuantity = parseInt(input.value);
+    let newQuantity = currentQuantity + change;
+    
+    if (newQuantity < 1) {
+        newQuantity = 1;
+    }
+    
+    input.value = newQuantity;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', 'include/update_cart.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            if (xhr.responseText === 'success') {
+                fetchTotalPrice();
+            } else {
+                alert('Error updating quantity: ' + xhr.responseText);
+            }
+        }
+    };
+    xhr.send(`item_id=${itemId}&quantity=${newQuantity}`);
+}
+
+function fetchTotalPrice() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', 'include/get_cart_total.php', true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            let response = JSON.parse(xhr.responseText);
+            document.getElementById('cart-total').textContent = response.total_price;
+        }
+    };
+    xhr.send();
+}
+
+window.onload = fetchTotalPrice;
+
+</script>
 
 </body>
-<!-- Mirrored from cartzilla.createx.studio/checkout-v1-cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 05:35:27 GMT -->
+
 </html>

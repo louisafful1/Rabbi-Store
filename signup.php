@@ -215,10 +215,16 @@
           <!-- Form -->
           <form class="needs-validation" novalidate="">
             <div class="position-relative mb-4">
+              <label for="register-email" class="form-label">Full Name</label>
+              <input type="email" class="form-control form-control-lg" id="register-email" required="">
+              <div class="invalid-tooltip bg-transparent py-0">Enter a valid Full name!</div>
+            </div>
+            <div class="position-relative mb-4">
               <label for="register-email" class="form-label">Email</label>
               <input type="email" class="form-control form-control-lg" id="register-email" required="">
               <div class="invalid-tooltip bg-transparent py-0">Enter a valid email address!</div>
             </div>
+
             <div class="mb-4">
               <label for="register-password" class="form-label">Password</label>
               <div class="password-toggle">
@@ -228,6 +234,16 @@
                   <input type="checkbox" class="btn-check">
                 </label>
               </div>
+            </div>
+            <div class="position-relative mb-4">
+              <label for="register-email" class="form-label">Confirm Password</label>
+              <input type="email" class="form-control form-control-lg" id="register-email" required="">
+              <div class="invalid-tooltip bg-transparent py-0">Enter a valid email address!</div>
+            </div>
+            <div class="position-relative mb-4">
+              <label for="register-email" class="form-label">Image</label>
+              <input type="file" class="form-control form-control-lg" id="register-email" required="">
+              <div class="invalid-tooltip bg-transparent py-0">Enter a valid email address!</div>
             </div>
             <div class="d-flex flex-column gap-2 mb-4">
               <div class="form-check">

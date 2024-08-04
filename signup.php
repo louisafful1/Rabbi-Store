@@ -1,3 +1,30 @@
+<?php 
+include "include/database.php";
+include "include/constant.php";
+include "include/functions.php";
+
+if($_SERVER['REQUEST_METHOD'] === "POST"){
+  $username = $_POST['username'];
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+  $confirm_password = $_POST['confirm_password'];
+  $address = $_POST['address'];
+  $phone = $_POST['phone'];
+  $ip = getIPAddress(); 
+  $user_image = $_FILES['user_image']['name'];
+  $user_image_temp = $_FILES['user_image']['tmp_name'];
+
+move_uploaded_file($user_image_temp, "user_images/$user_image");
+
+  $insertUserData = mysqli_query($connection, "INSERT INTO users VALUES (DEFAULT,'$username','$email','$password', '$user_image','$ip','$address','$phone')");  if($insertUserData){
+    echo "<script>alert('Successful insertion')</script>";
+  }else{
+    echo "<script>alert('error in insertion')</script>";
+  }
+}
+
+
+?>
 <!DOCTYPE html><html lang="en" data-bs-theme="light" data-pwa="true">
 <!-- Mirrored from cartzilla.createx.studio/account-signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 05:35:33 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
@@ -213,83 +240,66 @@
           </div>
 
           <!-- Form -->
-          <form class="needs-validation" novalidate="">
+          <form class="needs-validation" novalidate="" method="post">
             <div class="position-relative mb-4">
-              <label for="register-email" class="form-label">Full Name</label>
-              <input type="email" class="form-control form-control-lg" id="register-email" required="">
+              <label for="register-username" class="form-label">Full Name</label>
+              <input type="username" class="form-control form-control-lg" name="username" id="register-username" required="">
               <div class="invalid-tooltip bg-transparent py-0">Enter a valid Full name!</div>
             </div>
             <div class="position-relative mb-4">
               <label for="register-email" class="form-label">Email</label>
-              <input type="email" class="form-control form-control-lg" id="register-email" required="">
-              <div class="invalid-tooltip bg-transparent py-0">Enter a valid email address!</div>
+              <input type="email" class="form-control form-control-lg" name="email" id="register-email" required="">
+              <div class="invalid-tooltip bg-transparent py-0">Enter a valid email address</div>
+            </div>
+
+            <div class="position-relative mb-4">
+              <label for="register-image" class="form-label">Image</label>
+              <input type="file" class="form-control form-control-lg" name="user_image" id="register-image" required="">
             </div>
 
             <div class="mb-4">
               <label for="register-password" class="form-label">Password</label>
               <div class="password-toggle">
-                <input type="password" class="form-control form-control-lg" id="register-password" minlength="8" placeholder="Minimum 8 characters" required="">
+                <input type="password" class="form-control form-control-lg" id="register-password" name="password" minlength="8" placeholder="Minimum 8 characters" required="">
                 <div class="invalid-tooltip bg-transparent py-0">Password does not meet the required criteria!</div>
                 <label class="password-toggle-button fs-lg" aria-label="Show/hide password">
                   <input type="checkbox" class="btn-check">
                 </label>
               </div>
             </div>
-            <div class="position-relative mb-4">
-              <label for="register-email" class="form-label">Confirm Password</label>
-              <input type="email" class="form-control form-control-lg" id="register-email" required="">
-              <div class="invalid-tooltip bg-transparent py-0">Enter a valid email address!</div>
-            </div>
-            <div class="position-relative mb-4">
-              <label for="register-email" class="form-label">Image</label>
-              <input type="file" class="form-control form-control-lg" id="register-email" required="">
-              <div class="invalid-tooltip bg-transparent py-0">Enter a valid email address!</div>
-            </div>
-            <div class="d-flex flex-column gap-2 mb-4">
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="save-pass">
-                <label for="save-pass" class="form-check-label">Save the password</label>
-              </div>
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="privacy" required="">
-                <label for="privacy" class="form-check-label">I have read and accept the <a class="text-dark-emphasis" href="#!">Privacy Policy</a></label>
+            <div class="mb-4">
+              <label for="register-password" class="form-label">Confirm Password</label>
+              <div class="password-toggle">
+                <input type="password" class="form-control form-control-lg" name="confirm_password" id="confirm_password" minlength="8" placeholder="Minimum 8 characters" required="">
+                <div class="invalid-tooltip bg-transparent py-0">Password does not meet the required criteria!</div>
+                <label class="password-toggle-button fs-lg" aria-label="Show/hide password">
+                  <input type="checkbox" class="btn-check">
+                </label>
               </div>
             </div>
+
+            <div class="position-relative mb-4">
+              <label for="address" class="form-label">Address</label>
+              <input type="text" class="form-control form-control-lg" name="address" id="register-adress" required="">
+              <div class="invalid-tooltip bg-transparent py-0">Enter your address</div>
+            </div> 
+            
+            <div class="position-relative mb-4">
+              <label for="register-phone" class="form-label">Phone</label>
+              <input type="tel" class="form-control form-control-lg" id="register-phone" name="phone" required="">
+            </div>
+                    
             <button type="submit" class="btn btn-lg btn-primary w-100">
               Create an account
               <i class="ci-chevron-right fs-lg ms-1 me-n1"></i>
             </button>
           </form>
 
-          <!-- Divider -->
-          <div class="d-flex align-items-center my-4">
-            <hr class="w-100 m-0">
-            <span class="text-body-emphasis fw-medium text-nowrap mx-4">or continue with</span>
-            <hr class="w-100 m-0">
-          </div>
-
-          <!-- Social login -->
-          <div class="d-flex flex-column flex-sm-row gap-3 pb-4 mb-3 mb-lg-4">
-            <button type="button" class="btn btn-lg btn-outline-secondary w-100 px-2">
-              <i class="ci-google ms-1 me-1"></i>
-              Google
-            </button>
-            <button type="button" class="btn btn-lg btn-outline-secondary w-100 px-2">
-              <i class="ci-facebook ms-1 me-1"></i>
-              Facebook
-            </button>
-            <button type="button" class="btn btn-lg btn-outline-secondary w-100 px-2">
-              <i class="ci-apple ms-1 me-1"></i>
-              Apple
-            </button>
-          </div>
-
+         
           <!-- Footer -->
           <footer class="mt-auto">
-            <div class="nav mb-4">
-              <a class="nav-link text-decoration-underline p-0" href="help-topics-v1.html">Need help?</a>
-            </div>
-            <p class="fs-xs mb-0">
+         
+            <p class="fs-xs mb-0 mt-2">
               © All rights reserved. Made by <span class="animate-underline"><a class="animate-target text-dark-emphasis text-decoration-none" href="https://createx.studio/" target="_blank" rel="noreferrer">Createx Studio</a></span>
             </p>
           </footer>

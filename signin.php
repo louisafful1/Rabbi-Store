@@ -4,10 +4,10 @@ include "include/constant.php";
 include "include/functions.php";
 
 if(isset($_POST['login_button'])){
- $login_email = $_POST['login_email'];
- $login_password = $_POST['login_password'];
+ $login_email = trim($_POST['login_email']);
+ $login_password = trim($_POST['login_password']);
 
- $selectData = mysqli_query($connection, "SELECT * FROM users WHERE user_email = ' $login_email'");
+ $selectData = mysqli_query($connection, "SELECT * FROM users WHERE user_email = '$login_email'");
 $row_count = mysqli_num_rows($selectData);
 $fetch_user = mysqli_fetch_assoc($selectData);
 
@@ -69,20 +69,13 @@ if($row_count > 0){
     <!-- Customizer -->
     <script src="assets/js/customizer.min.js"></script>
   </head>
-
-
   <!-- Body -->
   <body>
-
-
-
     <!-- Page content -->
     <main class="content-wrapper w-100 px-3 ps-lg-5 pe-lg-4 mx-auto" style="max-width: 1920px">
       <div class="d-lg-flex">
-
         <!-- Login form + Footer -->
         <div class="d-flex flex-column min-vh-100 w-100 py-4 mx-auto me-lg-5" style="max-width: 416px">
-
           <!-- Logo -->
           <header class="navbar px-0 pb-4 mt-n2 mt-sm-0 mb-4 mb-md-3 mb-lg-4">
             <a href="index.php" class="navbar-brand pt-0">
@@ -92,13 +85,11 @@ if($row_count > 0){
               Rabbi Commerce
             </a>
           </header>
-
           <h1 class="h2 mt-4">Welcome back</h1>
           <div class="nav fs-sm mb-4">
             Don't have an account?
             <a class="nav-link text-decoration-underline p-0 ms-2" href="signup.php">Create an account</a>
           </div>
-
           <!-- Form -->
           <form class="needs-validation" novalidate="" method="post">
             <div class="position-relative mb-4">
@@ -127,14 +118,8 @@ if($row_count > 0){
             </div>
             <button type="submit" name="login_button" class="btn btn-lg btn-primary w-100">Sign In</button>
           </form>
-
-   
-
-
         </div>
-
-
-        <!-- Cover image visible on screens > 992px wide (lg breakpoint) -->
+                <!-- Cover image visible on screens > 992px wide (lg breakpoint) -->
         <div class="d-none d-lg-block w-100 py-4 ms-auto" style="max-width: 1034px">
           <div class="d-flex flex-column justify-content-end h-100 rounded-5 overflow-hidden">
             <span class="position-absolute top-0 start-0 w-100 h-100 d-none-dark" style="background: linear-gradient(-90deg, #accbee 0%, #e7f0fd 100%)"></span>
@@ -146,18 +131,7 @@ if($row_count > 0){
         </div>
       </div>
     </main>
-
-
-    <!-- Customizer toggle -->
-    <div class="floating-buttons position-fixed top-50 end-0 z-sticky me-3 me-xl-4 pb-4">
-      <a class="btn btn-sm btn-outline-secondary text-uppercase bg-body rounded-pill shadow animate-rotate ms-2 me-n5" href="#customizer" style="font-size: .625rem; letter-spacing: .05rem;" data-bs-toggle="offcanvas" role="button" aria-controls="customizer">
-        Customize<i class="ci-settings fs-base ms-1 me-n2 animate-target"></i>
-      </a>
-    </div>
-
-
     <!-- Bootstrap + Theme scripts -->
     <script src="assets/js/theme.min.js"></script>
-  
-
-</body></html>
+  </body>
+  </html>

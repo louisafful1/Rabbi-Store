@@ -6,13 +6,33 @@ include "include/functions.php";
 if(isset($_POST['login_button'])){
  $login_email = trim($_POST['login_email']);
  $login_password = trim($_POST['login_password']);
+ $ip = getIPAddress(); 
 
  $selectData = mysqli_query($connection, "SELECT * FROM users WHERE user_email = '$login_email'");
 $row_count = mysqli_num_rows($selectData);
 $fetch_user = mysqli_fetch_assoc($selectData);
 
+
+// select cart items
+$select_cart =mysqli_query($connection, "SELECT * FROM cart WHERE ip_address = '$ip'");
+$cart_count = mysqli_num_rows($select_cart);
+
 if($row_count > 0){
+  $_SESSION['username'] = $username;
   if(password_verify( $login_password, $fetch_user['password'])){
+
+  if($row_count == 1 && $cart_count == 0){
+    $_SESSION['username'] = $username;
+    echo "<script>alert('Login Successful')</script>";
+    echo "<script>window.open('index.php', '_self')</script>";
+ 
+  }else{
+    $_SESSION['username'] = $username;
+    echo "<script>alert('Login Successful')</script>";
+    echo "<script>window.open('payment.php', '_self')</script>";
+  }
+
+  
     echo "<script>alert('Login Successful')</script>";
   }else{
     echo "<script>alert('Invalid Credentials password')</script>";

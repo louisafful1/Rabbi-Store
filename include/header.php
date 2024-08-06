@@ -1,3 +1,8 @@
+   <?php
+  @session_start();
+   
+   
+   ?>
    <!-- Navigation bar (Page header) -->
     <style>
      /* Ensure the badge is close to the icon */
@@ -61,6 +66,22 @@
               <li class="nav-item me-lg-n2 me-xl-0">
                 <a class="nav-link fs-sm" href="orders.php">Orders</a>
               </li>
+
+              <li class="nav-item me-lg-n2 me-xl-0">
+                <a class="nav-link fs-sm" href="orders.php">Orders</a>
+              </li>
+
+              <li class="nav-item me-lg-n2 me-xl-0">
+  <?php if (!isset($_SESSION['user_email'])) { ?>
+    <a class="nav-link fs-sm" href="logout.php">logout</a>
+  <?php } else { ?>
+    <a class="nav-link fs-sm" href="signin.php">login</a>
+  <?php } ?>
+</li>
+
+              
+              
+
             </ul>
           </div>
         </nav>

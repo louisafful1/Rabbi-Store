@@ -1,7 +1,9 @@
 <?php
+session_start();
 include "include/database.php";
 include "include/constant.php";
 include "include/functions.php";
+
 
 if(isset($_POST['login_button'])){
  $login_email = trim($_POST['login_email']);
@@ -18,16 +20,16 @@ $select_cart =mysqli_query($connection, "SELECT * FROM cart WHERE ip_address = '
 $cart_count = mysqli_num_rows($select_cart);
 
 if($row_count > 0){
-  $_SESSION['username'] = $username;
+  $_SESSION['user_email'] = $fetch_user['user_email'];
   if(password_verify( $login_password, $fetch_user['password'])){
 
   if($row_count == 1 && $cart_count == 0){
-    $_SESSION['username'] = $username;
+    $_SESSION['user_email'] = $fetch_user['user_email'];
     echo "<script>alert('Login Successful')</script>";
     echo "<script>window.open('index.php', '_self')</script>";
  
   }else{
-    $_SESSION['username'] = $username;
+    $_SESSION['user_email'] = $fetch_user['user_email'];
     echo "<script>alert('Login Successful')</script>";
     echo "<script>window.open('payment.php', '_self')</script>";
   }

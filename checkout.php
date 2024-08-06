@@ -1,11 +1,16 @@
 <?php
 include "include/database.php";
 include "include/constant.php";
-include "include/functions.php";
+// include "include/functions.php";
+
+
+
+
 ?>
+
 <?php
 
-  if(!isset($_SESSION['username'])){
+  if(!isset($_SESSION['user_email'])){
     include ("signin.php");
   }else{
     include ("payment.php");
@@ -13,9 +18,9 @@ include "include/functions.php";
 
 
 ?>
+
 <!DOCTYPE html><html lang="en" data-bs-theme="light" data-pwa="true">
-<!-- Mirrored from cartzilla.createx.studio/checkout-v1-cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Jul 2024 05:35:26 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <head>
     <meta charset="utf-8">
 
@@ -171,7 +176,7 @@ include "include/functions.php";
 
 
 <!-- Header -->
-<?php// include "include/header.php";?>
+<?php include "include/header.php";?>
 <!-- End of Header -->
 
 
